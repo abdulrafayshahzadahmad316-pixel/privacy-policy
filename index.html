@@ -8,7 +8,7 @@
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="./">
 <link rel="icon" type="image/png" href="./favicon.png">
-<link rel="apple-touch-icon" href="./icon.png">
+<link rel="apple-touch-icon" href="./app-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -106,7 +106,7 @@
   }
   .hero .subtitle {
     font-size: 16px;
-    color: var(--slate-500);
+    color: rgba(255,255,255,.85);
     margin-bottom: 16px;
   }
   .hero .badge {
@@ -252,6 +252,34 @@
     overflow-x: auto;
     margin: 16px 0;
     -webkit-overflow-scrolling: touch;
+    border: 1px solid var(--slate-200);
+    border-radius: 10px;
+    position: relative;
+  }
+  .table-wrap::-webkit-scrollbar {
+    height: 8px;
+  }
+  .table-wrap::-webkit-scrollbar-track {
+    background: var(--slate-100);
+    border-radius: 0 0 10px 10px;
+  }
+  .table-wrap::-webkit-scrollbar-thumb {
+    background: var(--slate-400);
+    border-radius: 4px;
+  }
+  .table-wrap::-webkit-scrollbar-thumb:hover {
+    background: var(--slate-500);
+  }
+  .scroll-hint {
+    display: none;
+    text-align: center;
+    font-size: 12px;
+    color: var(--slate-400);
+    margin-top: -10px;
+    margin-bottom: 16px;
+  }
+  @media (max-width: 640px) {
+    .scroll-hint { display: block; }
   }
   table {
     width: 100%;
@@ -362,7 +390,7 @@
 <header class="header">
   <div class="header-inner">
     <a href="./" class="brand">
-      <img src="./icon.png" alt="Student Face Attendance" style="width:32px;height:32px;border-radius:8px;object-fit:cover">
+      <img src="./app-icon.png" alt="Student Face Attendance" style="width:32px;height:32px;border-radius:8px;object-fit:cover">
       Student Face Attendance
     </a>
     <nav>
@@ -376,7 +404,7 @@
 
 <!-- ── Hero ── -->
 <section class="hero">
-  <img src="./icon.png" alt="Student Face Attendance" style="width:64px;height:64px;border-radius:16px;object-fit:cover;margin-bottom:16px;box-shadow:0 4px 12px rgba(0,0,0,.1)">
+  <img src="./app-icon.png" alt="Student Face Attendance" style="width:64px;height:64px;border-radius:16px;object-fit:cover;margin-bottom:16px;box-shadow:0 4px 12px rgba(0,0,0,.1)">
   <h1>Privacy Policy</h1>
   <p class="subtitle">How we collect, use, and protect your information</p>
   <div class="badge">
@@ -476,6 +504,7 @@
           </tbody>
         </table>
       </div>
+      <div class="scroll-hint">&larr; Scroll horizontally to see all columns &rarr;</div>
 
       <div class="callout callout-green">
         <strong>We do NOT collect:</strong>
@@ -586,6 +615,7 @@
           </tbody>
         </table>
       </div>
+      <div class="scroll-hint">&larr; Scroll horizontally to see all columns &rarr;</div>
 
       <p>Data may be processed in countries other than yours. Where required by law, transfers are covered by the providers' standard contractual commitments.</p>
       <p>We may disclose information if required by law or in good faith that such action is necessary to comply with a legal obligation.</p>
