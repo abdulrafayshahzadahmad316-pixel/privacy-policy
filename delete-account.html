@@ -230,10 +230,12 @@
 
 <script>
 (function () {
-  // FormSubmit.co free endpoint — first submission sends a one-time
-  // activation email to the form owner. After activation, all submits
-  // deliver to smartfaceattendanceofficial@gmail.com.
-  var ENDPOINT = 'https://formsubmit.co/ajax/smartfaceattendanceofficial@gmail.com';
+  // Supabase Edge Function — request-account-deletion (your backend).
+  // Stores the request in public.deletion_requests; developer processes
+  // within 30 days per privacy policy.
+  var PROJECT = 'https://vrdxikumzkaqdwcvwhna.supabase.co';
+  var ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZyZHhpa3VtemthcWR3Y3Z3aG5hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA3NTAwODcsImV4cCI6MjEwNjMyNjA4N30.gQH3i3wYL1Jncbckn1ge9tB9efQWkKiCvLXaABQp-D4';
+  var ENDPOINT = PROJECT + '/functions/v1/request-account-deletion';
 
   var form = document.getElementById('deleteForm');
   var btn = document.getElementById('submitBtn');
@@ -271,24 +273,26 @@
     btnText.textContent = 'Submitting…';
 
     var data = {
-      Email: email.value.trim(),
-      Name: document.getElementById('name').value.trim() || '—',
-      School: document.getElementById('school').value.trim() || '—',
-      Reason: document.getElementById('reason').value,
-      Details: document.getElementById('details').value.trim() || '—',
-      Confirm: 'yes',
-      _subject: 'Account deletion request — Student Face Attendance',
-      _template: 'table',
-      _captcha: 'false'
+      email: email.value.trim(),
+      name: document.getElementById('name').value.trim(),
+      school: document.getElementById('school').value.trim(),
+      reason: document.getElementById('reason').value,
+      details: document.getElementById('details').value.trim(),
+      _honey: ''
     };
 
     fetch(ENDPOINT, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': ANON_KEY,
+        'Authorization': 'Bearer ' + ANON_KEY
+      },
       body: JSON.stringify(data)
     })
-      .then(function (res) {
-        if (!res.ok) throw new Error('bad status ' + res.status);
+      .then(function (res) { return res.json().then(function (j) { return { ok: res.ok, j: j }; }); })
+      .then(function (r) {
+        if (!r.ok) throw new Error(r.j && r.j.error ? r.j.error : 'request failed');
         form.querySelectorAll('input, textarea, select, button').forEach(function (el) {
           if (el.type !== 'hidden') el.disabled = true;
         });
