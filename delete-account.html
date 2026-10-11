@@ -310,7 +310,7 @@
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
   }
 
-  // STEP 1: Send OTP
+  // STEP 1: Send OTP (Supabase built-in, same as signup)
   sendCodeBtn.addEventListener('click', function () {
     emailError.style.display = 'none';
     codeSentBox.style.display = 'none';
@@ -346,7 +346,7 @@
     sendCodeBtn.click();
   });
 
-  // STEP 2: Verify OTP
+  // STEP 2: Verify OTP (Supabase built-in, same as signup)
   verifyBtn.addEventListener('click', function () {
     otpError.style.display = 'none';
     otpVerifiedBox.style.display = 'none';
@@ -372,10 +372,8 @@
         otpError.style.display = 'block';
         return;
       }
-      // Store JWT for final submission
       verifiedJwt = result.data.session.access_token;
       otpVerifiedBox.style.display = 'block';
-      // Unlock form
       step3.classList.remove('locked');
       step3.classList.add('unlocked');
       step3.style.opacity = '1';
