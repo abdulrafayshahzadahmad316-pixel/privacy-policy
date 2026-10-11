@@ -127,6 +127,31 @@
       border-radius: 10px;
       font-size: 14px;
     }
+    .btn-inline {
+      padding: 11px 18px;
+      background: #3f5efb;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-inline:hover { background: #2f4de0; }
+    .btn-inline:disabled { opacity: .5; cursor: not-allowed; }
+    .success-sm {
+      display: none;
+      margin-top: 8px;
+      padding: 10px 14px;
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      border-radius: 8px;
+      color: #065f46;
+      font-size: 13px;
+    }
+    .form-lock.locked { opacity: 0.4; pointer-events: none; }
+    .form-lock.unlocked { opacity: 1; pointer-events: auto; }
     footer { text-align: center; font-size: 13px; color: #6b7280; margin-top: 22px; }
     @media (prefers-color-scheme: dark) {
       body { background: #0f1115; color: #e6e6e6; }
@@ -160,49 +185,74 @@
   This permanently deletes your login and profile immediately.</p>
 
   <h2>Option 2 — Submit this form</h2>
+  <p style="font-size:14px;color:#6b7280;margin-bottom:16px">
+    For your security, we verify your email with a one-time code before accepting the request.
+    This ensures only the account owner can request deletion.
+  </p>
+
   <form id="deleteForm" novalidate>
-    <input type="hidden" name="_subject" value="Account deletion request — Student Face Attendance">
-    <input type="hidden" name="_template" value="table">
-    <input type="hidden" name="_captcha" value="false">
     <!-- honeypot -->
     <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
 
-    <label for="email">Registered email address <span class="req">*</span></label>
-    <input type="email" id="email" name="Email" required autocomplete="email" placeholder="you@example.com">
-    <div class="error" id="emailError">Please enter a valid email address.</div>
-
-    <div class="row">
-      <div>
-        <label for="name">Full name</label>
-        <input type="text" id="name" name="Name" autocomplete="name" placeholder="Optional">
+    <!-- STEP 1: Email + Send Code -->
+    <div id="step1">
+      <label for="email">Registered email address <span class="req">*</span></label>
+      <div style="display:flex;gap:8px">
+        <input type="email" id="email" required autocomplete="email" placeholder="you@example.com" style="flex:1">
+        <button type="button" id="sendCodeBtn" class="btn-inline">Send Code</button>
       </div>
-      <div>
-        <label for="school">School / institution</label>
-        <input type="text" id="school" name="School" placeholder="Optional — helps locate account">
-      </div>
+      <div class="hint">We'll send a 6-digit verification code to this email.</div>
+      <div class="error" id="emailError">Please enter a valid email address.</div>
+      <div class="success-sm" id="codeSentBox">✅ Verification code sent! Check your email (and spam folder).</div>
     </div>
 
-    <label for="reason">Reason</label>
-    <select id="reason" name="Reason">
-      <option value="No longer using the app">No longer using the app</option>
-      <option value="Privacy concerns">Privacy concerns</option>
-      <option value="Duplicate account">Duplicate account</option>
-      <option value="Other">Other</option>
-    </select>
+    <!-- STEP 2: OTP Verification -->
+    <div id="step2" style="display:none;margin-top:20px">
+      <label for="otp">Enter verification code <span class="req">*</span></label>
+      <div style="display:flex;gap:8px">
+        <input type="text" id="otp" maxlength="6" placeholder="6-digit code" style="flex:1;font-size:20px;letter-spacing:8px;text-align:center;font-family:monospace">
+        <button type="button" id="verifyBtn" class="btn-inline">Verify</button>
+      </div>
+      <div class="hint">Code expires in 5 minutes. <a href="#" id="resendLink">Resend code</a></div>
+      <div class="error" id="otpError">Invalid or expired code. Try again.</div>
+      <div class="success-sm" id="otpVerifiedBox">✅ Email verified! You can now fill the form below.</div>
+    </div>
 
-    <label for="details">Additional details</label>
-    <textarea id="details" name="Details" placeholder="Anything that helps us find and delete your account."></textarea>
+    <!-- STEP 3: Rest of form (locked until OTP verified) -->
+    <div id="step3" style="display:none;margin-top:24px;opacity:0.4;pointer-events:none" class="form-lock">
+      <div class="row">
+        <div>
+          <label for="name">Full name</label>
+          <input type="text" id="name" autocomplete="name" placeholder="Optional">
+        </div>
+        <div>
+          <label for="school">School / institution</label>
+          <input type="text" id="school" placeholder="Optional — helps locate account">
+        </div>
+      </div>
 
-    <label class="check">
-      <input type="checkbox" id="confirm" name="Confirm" value="yes" required>
-      <span>I understand this will permanently delete my account and personal data (login, name, email, face photo/template linked to my account). This cannot be undone.</span>
-    </label>
-    <div class="error" id="confirmError">Please confirm to continue.</div>
+      <label for="reason">Reason</label>
+      <select id="reason">
+        <option value="No longer using the app">No longer using the app</option>
+        <option value="Privacy concerns">Privacy concerns</option>
+        <option value="Duplicate account">Duplicate account</option>
+        <option value="Other">Other</option>
+      </select>
 
-    <button type="submit" id="submitBtn">
-      <span class="spinner" aria-hidden="true"></span>
-      <span id="btnText">Submit deletion request</span>
-    </button>
+      <label for="details">Additional details</label>
+      <textarea id="details" placeholder="Anything that helps us find and delete your account."></textarea>
+
+      <label class="check">
+        <input type="checkbox" id="confirm" required>
+        <span>I understand this will permanently delete my account and personal data (login, name, email, face photo/template linked to my account). This cannot be undone.</span>
+      </label>
+      <div class="error" id="confirmError">Please confirm to continue.</div>
+
+      <button type="submit" id="submitBtn">
+        <span class="spinner" aria-hidden="true"></span>
+        <span id="btnText">Submit deletion request</span>
+      </button>
+    </div>
 
     <div class="success" id="successBox" role="status">
       <h3>Request submitted</h3>
@@ -212,7 +262,7 @@
     <div class="fail" id="failBox" role="alert">
       Could not submit right now. Please email
       <a href="mailto:smartfaceattendanceofficial@gmail.com">smartfaceattendanceofficial@gmail.com</a>
-      with subject “Account deletion request”.
+      with subject "Account deletion request".
     </div>
   </form>
 
@@ -228,22 +278,31 @@
 <footer>Student Face Attendance</footer>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
 (function () {
-  // Supabase Edge Function — request-account-deletion (your backend).
-  // Stores the request in public.deletion_requests; developer processes
-  // within 30 days per privacy policy.
   var PROJECT = 'https://vrdxikumzkaqdwcvwhna.supabase.co';
   var ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZyZHhpa3VtemthcWR3Y3Z3aG5hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA3NTAwODcsImV4cCI6MjEwNjMyNjA4N30.gQH3i3wYL1Jncbckn1ge9tB9efQWkKiCvLXaABQp-D4';
   var ENDPOINT = PROJECT + '/functions/v1/request-account-deletion';
 
+  var sb = supabase.createClient(PROJECT, ANON_KEY);
+  var verifiedJwt = null;
+
   var form = document.getElementById('deleteForm');
+  var email = document.getElementById('email');
+  var otp = document.getElementById('otp');
+  var sendCodeBtn = document.getElementById('sendCodeBtn');
+  var verifyBtn = document.getElementById('verifyBtn');
+  var resendLink = document.getElementById('resendLink');
+  var emailError = document.getElementById('emailError');
+  var otpError = document.getElementById('otpError');
+  var codeSentBox = document.getElementById('codeSentBox');
+  var otpVerifiedBox = document.getElementById('otpVerifiedBox');
+  var step3 = document.getElementById('step3');
+  var confirmEl = document.getElementById('confirm');
+  var confirmError = document.getElementById('confirmError');
   var btn = document.getElementById('submitBtn');
   var btnText = document.getElementById('btnText');
-  var email = document.getElementById('email');
-  var confirm = document.getElementById('confirm');
-  var emailError = document.getElementById('emailError');
-  var confirmError = document.getElementById('confirmError');
   var successBox = document.getElementById('successBox');
   var failBox = document.getElementById('failBox');
 
@@ -251,29 +310,100 @@
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
   }
 
+  // STEP 1: Send OTP
+  sendCodeBtn.addEventListener('click', function () {
+    emailError.style.display = 'none';
+    codeSentBox.style.display = 'none';
+
+    if (!validEmail(email.value.trim())) {
+      emailError.style.display = 'block';
+      return;
+    }
+
+    sendCodeBtn.disabled = true;
+    sendCodeBtn.textContent = 'Sending...';
+
+    sb.auth.signInWithOtp({
+      email: email.value.trim(),
+      options: { shouldCreateUser: false }
+    }).then(function (result) {
+      sendCodeBtn.disabled = false;
+      sendCodeBtn.textContent = 'Send Code';
+      if (result.error) {
+        emailError.textContent = result.error.message || 'Could not send code.';
+        emailError.style.display = 'block';
+        return;
+      }
+      codeSentBox.style.display = 'block';
+      document.getElementById('step2').style.display = 'block';
+      otp.focus();
+    });
+  });
+
+  // RESEND OTP
+  resendLink.addEventListener('click', function (e) {
+    e.preventDefault();
+    sendCodeBtn.click();
+  });
+
+  // STEP 2: Verify OTP
+  verifyBtn.addEventListener('click', function () {
+    otpError.style.display = 'none';
+    otpVerifiedBox.style.display = 'none';
+
+    if (!otp.value.trim() || otp.value.trim().length !== 6) {
+      otpError.textContent = 'Enter the 6-digit code.';
+      otpError.style.display = 'block';
+      return;
+    }
+
+    verifyBtn.disabled = true;
+    verifyBtn.textContent = 'Verifying...';
+
+    sb.auth.verifyOtp({
+      email: email.value.trim(),
+      token: otp.value.trim(),
+      type: 'email'
+    }).then(function (result) {
+      verifyBtn.disabled = false;
+      verifyBtn.textContent = 'Verify';
+      if (result.error || !result.data || !result.data.session) {
+        otpError.textContent = (result.error && result.error.message) || 'Invalid or expired code.';
+        otpError.style.display = 'block';
+        return;
+      }
+      // Store JWT for final submission
+      verifiedJwt = result.data.session.access_token;
+      otpVerifiedBox.style.display = 'block';
+      // Unlock form
+      step3.classList.remove('locked');
+      step3.classList.add('unlocked');
+      step3.style.opacity = '1';
+      step3.style.pointerEvents = 'auto';
+      document.getElementById('name').focus();
+    });
+  });
+
+  // STEP 3: Submit form with verified JWT
   form.addEventListener('submit', function (e) {
     e.preventDefault();
-    emailError.style.display = 'none';
     confirmError.style.display = 'none';
     failBox.style.display = 'none';
 
-    var ok = true;
-    if (!validEmail(email.value.trim())) {
-      emailError.style.display = 'block';
-      ok = false;
+    if (!verifiedJwt) {
+      alert('Please verify your email first.');
+      return;
     }
-    if (!confirm.checked) {
+    if (!confirmEl.checked) {
       confirmError.style.display = 'block';
-      ok = false;
+      return;
     }
-    if (!ok) return;
 
     btn.disabled = true;
     btn.classList.add('loading');
-    btnText.textContent = 'Submitting…';
+    btnText.textContent = 'Submitting...';
 
     var data = {
-      email: email.value.trim(),
       name: document.getElementById('name').value.trim(),
       school: document.getElementById('school').value.trim(),
       reason: document.getElementById('reason').value,
@@ -286,7 +416,7 @@
       headers: {
         'Content-Type': 'application/json',
         'apikey': ANON_KEY,
-        'Authorization': 'Bearer ' + ANON_KEY
+        'Authorization': 'Bearer ' + verifiedJwt
       },
       body: JSON.stringify(data)
     })
