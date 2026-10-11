@@ -3,279 +3,422 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Account Deletion Request – Student Face Attendance</title>
-  <meta name="description" content="Submit a secure request to delete your Student Face Attendance account and associated personal data.">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="./delete-account.html">
+  <title>Delete Account – Student Face Attendance</title>
+  <meta name="description" content="Securely request deletion of your Student Face Attendance account and personal data.">
+  <meta name="robots" content="noindex, nofollow">
   <style>
-    :root { color-scheme: light dark; }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      line-height: 1.65;
-      color: #1c1e21;
-      background: #f6f7f9;
+    :root {
+      --primary: #3f5efb;
+      --primary-dark: #2f4de0;
+      --primary-light: #eef1ff;
+      --text: #111827;
+      --text-sec: #6b7280;
+      --border: #d1d5db;
+      --bg: #f9fafb;
+      --card: #ffffff;
+      --green: #059669;
+      --green-bg: #ecfdf5;
+      --green-border: #a7f3d0;
+      --red: #dc2626;
+      --red-bg: #fef2f2;
+      --red-border: #fecaca;
+      --radius: 12px;
     }
-    .wrap { max-width: 720px; margin: 0 auto; padding: 32px 20px 64px; }
-    header {
-      background: linear-gradient(135deg, #3f5efb, #6a5cff);
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    .header {
+      background: linear-gradient(135deg, #3f5efb 0%, #6a5cff 100%);
       color: #fff;
-      padding: 40px 20px;
+      padding: 36px 20px 48px;
       text-align: center;
     }
-    header h1 { margin: 0 0 6px; font-size: 24px; }
-    header p { margin: 0; opacity: .9; font-size: 14px; }
-    article {
-      background: #fff;
-      border: 1px solid #e4e6eb;
-      border-radius: 14px;
-      padding: 26px 24px;
-      margin-top: -24px;
-      box-shadow: 0 6px 24px rgba(0,0,0,.06);
+    .header .icon {
+      width: 56px; height: 56px;
+      background: rgba(255,255,255,.15);
+      border-radius: 16px;
+      display: inline-flex; align-items: center; justify-content: center;
+      margin-bottom: 16px;
     }
-    h2 { font-size: 17px; margin: 22px 0 8px; }
-    h2:first-child { margin-top: 0; }
-    p, li { font-size: 15px; color: #3a3d42; }
-    ul, ol { padding-left: 20px; margin: 8px 0; }
-    a { color: #3f5efb; }
-    .meta { font-size: 13px; color: #6b7280; margin-bottom: 18px; }
-    label { display: block; font-size: 14px; font-weight: 600; margin: 14px 0 6px; color: #1c1e21; }
-    label .req { color: #dc2626; }
-    input, textarea, select {
+    .header .icon svg { width: 28px; height: 28px; }
+    .header h1 { font-size: 26px; font-weight: 700; margin-bottom: 4px; }
+    .header p { font-size: 14px; opacity: .85; }
+
+    /* ── Card ── */
+    .card {
+      max-width: 640px;
+      margin: -28px auto 48px;
+      background: var(--card);
+      border: 1px solid #e5e7eb;
+      border-radius: var(--radius);
+      box-shadow: 0 4px 24px rgba(0,0,0,.06);
+      overflow: hidden;
+    }
+
+    /* ── Steps indicator ── */
+    .steps {
+      display: flex;
+      border-bottom: 1px solid #e5e7eb;
+      background: #f9fafb;
+    }
+    .step-indicator {
+      flex: 1;
+      padding: 14px 8px;
+      text-align: center;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-sec);
+      position: relative;
+      transition: color .3s;
+    }
+    .step-indicator .num {
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      background: #e5e7eb;
+      color: var(--text-sec);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700;
+      margin-bottom: 4px;
+      transition: all .3s;
+    }
+    .step-indicator.active { color: var(--primary); }
+    .step-indicator.active .num { background: var(--primary); color: #fff; }
+    .step-indicator.done { color: var(--green); }
+    .step-indicator.done .num { background: var(--green); color: #fff; }
+    .step-indicator .label { display: block; }
+    @media (max-width: 480px) {
+      .step-indicator .label { font-size: 10px; }
+    }
+
+    /* ── Content ── */
+    .content { padding: 28px 28px 32px; }
+    @media (max-width: 480px) {
+      .content { padding: 20px 16px 24px; }
+    }
+    .step-panel { display: none; }
+    .step-panel.visible { display: block; animation: fadeIn .3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    .step-panel h2 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+    .step-panel .sub { font-size: 14px; color: var(--text-sec); margin-bottom: 20px; }
+
+    /* ── Fields ── */
+    label {
+      display: block;
+      font-size: 13.5px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+    label .opt { font-weight: 400; color: var(--text-sec); }
+    label .req { color: var(--red); }
+    .field { margin-bottom: 16px; }
+    input[type="email"], input[type="text"], select, textarea {
       width: 100%;
-      padding: 11px 12px;
-      border: 1px solid #cdd0d5;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
       border-radius: 8px;
       font-size: 15px;
       font-family: inherit;
       background: #fff;
-      color: #1c1e21;
+      color: var(--text);
+      transition: border-color .2s, box-shadow .2s;
     }
-    input:focus, textarea:focus, select:focus {
-      outline: 2px solid #3f5efb33;
-      border-color: #3f5efb;
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(63,94,251,.12);
     }
-    textarea { min-height: 96px; resize: vertical; }
-    .hint { font-size: 12.5px; color: #6b7280; margin-top: 5px; }
-    .error { font-size: 13px; color: #dc2626; margin-top: 5px; display: none; }
-    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    @media (max-width: 520px) { .row { grid-template-columns: 1fr; } }
-    .check {
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-      margin-top: 18px;
-      font-size: 14px;
-      color: #3a3d42;
+    textarea { min-height: 88px; resize: vertical; }
+    .hint { font-size: 12.5px; color: var(--text-sec); margin-top: 6px; }
+    .err { font-size: 13px; color: var(--red); margin-top: 6px; display: none; }
+
+    /* ── Email row ── */
+    .email-row { display: flex; gap: 10px; }
+    .email-row input { flex: 1; }
+
+    /* ── OTP input ── */
+    .otp-row { display: flex; gap: 10px; }
+    .otp-row input {
+      flex: 1;
+      text-align: center;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 8px;
+      font-family: "SF Mono", "Fira Code", "Cascadia Code", monospace;
+      padding: 14px 8px;
+      min-width: 0;
     }
-    .check input { width: 18px; height: 18px; margin-top: 2px; flex-shrink: 0; }
-    button {
+
+    /* ── Buttons ── */
+    .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      margin-top: 20px;
-      padding: 13px 26px;
-      background: #3f5efb;
-      color: #fff;
+      gap: 8px;
+      padding: 12px 22px;
       border: none;
-      border-radius: 10px;
-      font-size: 15px;
+      border-radius: 8px;
+      font-size: 14px;
       font-weight: 600;
       cursor: pointer;
-      width: 100%;
-      max-width: 320px;
+      transition: all .2s;
+      white-space: nowrap;
+      font-family: inherit;
     }
-    button:hover:not(:disabled) { background: #2f4de0; }
-    button:disabled { opacity: .55; cursor: not-allowed; }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover:not(:disabled) { background: var(--primary-dark); }
+    .btn-primary:disabled { opacity: .5; cursor: not-allowed; }
+    .btn-outline {
+      background: #fff;
+      color: var(--primary);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover:not(:disabled) { border-color: var(--primary); background: var(--primary-light); }
+    .btn-danger { background: var(--red); color: #fff; }
+    .btn-danger:hover:not(:disabled) { background: #b91c1c; }
+    .btn-danger:disabled { opacity: .5; cursor: not-allowed; }
+    .btn-block { width: 100%; }
+
     .spinner {
-      width: 18px; height: 18px;
-      border: 2px solid #ffffff66;
+      width: 16px; height: 16px;
+      border: 2px solid rgba(255,255,255,.4);
       border-top-color: #fff;
       border-radius: 50%;
-      animation: spin .7s linear infinite;
-      margin-right: 8px;
+      animation: spin .6s linear infinite;
       display: none;
     }
-    button.loading .spinner { display: inline-block; }
+    .btn.loading .spinner { display: inline-block; }
     @keyframes spin { to { transform: rotate(360deg); } }
-    .success {
+
+    /* ── Alerts ── */
+    .alert {
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 13.5px;
+      margin-top: 12px;
       display: none;
-      margin-top: 18px;
-      padding: 18px;
-      background: #ecfdf5;
-      border: 1px solid #a7f3d0;
-      border-radius: 10px;
-      color: #065f46;
     }
-    .success h3 { margin: 0 0 6px; font-size: 16px; }
-    .success p { margin: 0; font-size: 14px; color: #047857; }
-    .fail {
-      display: none;
-      margin-top: 14px;
-      padding: 14px 16px;
+    .alert-success { background: var(--green-bg); border: 1px solid var(--green-border); color: #065f46; display: flex; align-items: center; gap: 8px; }
+    .alert-error { background: var(--red-bg); border: 1px solid var(--red-border); color: #991b1b; }
+    .alert .check-icon { flex-shrink: 0; }
+
+    /* ── Checkbox ── */
+    .checkbox-wrap {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 14px;
       background: #fef2f2;
       border: 1px solid #fecaca;
-      border-radius: 10px;
-      color: #991b1b;
-      font-size: 14px;
+      border-radius: 8px;
+      margin-top: 20px;
     }
-    .alt {
-      margin-top: 22px;
+    .checkbox-wrap input[type="checkbox"] {
+      width: 18px; height: 18px;
+      margin-top: 2px;
+      flex-shrink: 0;
+      accent-color: var(--red);
+    }
+    .checkbox-wrap span { font-size: 13.5px; color: #7f1d1d; line-height: 1.5; }
+
+    /* ── Success screen ── */
+    .success-screen { text-align: center; padding: 20px 0; }
+    .success-screen .big-check {
+      width: 72px; height: 72px;
+      background: var(--green-bg);
+      border: 2px solid var(--green-border);
+      border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      margin-bottom: 20px;
+    }
+    .success-screen .big-check svg { width: 36px; height: 36px; }
+    .success-screen h2 { font-size: 22px; margin-bottom: 8px; }
+    .success-screen p { font-size: 14px; color: var(--text-sec); max-width: 400px; margin: 0 auto; }
+
+    /* ── Info box ── */
+    .info-box {
+      background: #f0f9ff;
+      border: 1px solid #bae6fd;
+      border-radius: 8px;
       padding: 14px 16px;
-      background: #f0f2f5;
-      border-radius: 10px;
-      font-size: 14px;
+      margin-top: 16px;
+      font-size: 13.5px;
+      color: #0c4a6e;
     }
-    .btn-inline {
-      padding: 11px 18px;
-      background: #3f5efb;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      white-space: nowrap;
-    }
-    .btn-inline:hover { background: #2f4de0; }
-    .btn-inline:disabled { opacity: .5; cursor: not-allowed; }
-    .success-sm {
-      display: none;
-      margin-top: 8px;
-      padding: 10px 14px;
-      background: #ecfdf5;
-      border: 1px solid #a7f3d0;
-      border-radius: 8px;
-      color: #065f46;
+    .info-box strong { display: block; margin-bottom: 4px; }
+
+    /* ── Footer ── */
+    .footer {
+      text-align: center;
+      padding: 20px;
       font-size: 13px;
+      color: var(--text-sec);
     }
-    .form-lock.locked { opacity: 0.4; pointer-events: none; }
-    .form-lock.unlocked { opacity: 1; pointer-events: auto; }
-    footer { text-align: center; font-size: 13px; color: #6b7280; margin-top: 22px; }
-    @media (prefers-color-scheme: dark) {
-      body { background: #0f1115; color: #e6e6e6; }
-      article { background: #171a20; border-color: #262a33; box-shadow: none; }
-      p, li, label, .check { color: #c9cdd6; }
-      label { color: #e6e6e6; }
-      input, textarea, select { background: #1f232b; border-color: #3a4050; color: #e6e6e6; }
-      .alt { background: #1f232b; }
-      .meta, footer, .hint { color: #9aa1ad; }
-      .success { background: #064e3b; border-color: #065f46; color: #d1fae5; }
-      .success p { color: #a7f3d0; }
-      .fail { background: #450a0a; border-color: #7f1d1d; color: #fecaca; }
-    }
+    .footer a { color: var(--primary); text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
-<header>
-  <h1>Account Deletion Request</h1>
-  <p>Student Face Attendance</p>
-</header>
-<div class="wrap">
-<article>
-  <p class="meta">Last updated: October 11, 2026</p>
 
-  <p>Submit the form below to request deletion of your <strong>Student Face Attendance</strong>
-  account and the personal data linked to it (login, name, email address). We complete every
-  request <strong>within 30 days</strong> and confirm by email.</p>
-
-  <h2>Option 1 — Delete from inside the app (fastest)</h2>
-  <p>Open the app → <strong>Settings</strong> → <strong>Delete account</strong>.
-  This permanently deletes your login and profile immediately.</p>
-
-  <h2>Option 2 — Submit this form</h2>
-  <p style="font-size:14px;color:#6b7280;margin-bottom:16px">
-    For your security, we verify your email with a one-time code before accepting the request.
-    This ensures only the account owner can request deletion.
-  </p>
-
-  <form id="deleteForm" novalidate>
-    <!-- honeypot -->
-    <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
-
-    <!-- STEP 1: Email + Send Code -->
-    <div id="step1">
-      <label for="email">Registered email address <span class="req">*</span></label>
-      <div style="display:flex;gap:8px">
-        <input type="email" id="email" required autocomplete="email" placeholder="you@example.com" style="flex:1">
-        <button type="button" id="sendCodeBtn" class="btn-inline">Send Code</button>
-      </div>
-      <div class="hint">We'll send a 6-digit verification code to this email.</div>
-      <div class="error" id="emailError">Please enter a valid email address.</div>
-      <div class="success-sm" id="codeSentBox">✅ Verification code sent! Check your email (and spam folder).</div>
-    </div>
-
-    <!-- STEP 2: OTP Verification -->
-    <div id="step2" style="display:none;margin-top:20px">
-      <label for="otp">Enter verification code <span class="req">*</span></label>
-      <div style="display:flex;gap:8px">
-        <input type="text" id="otp" maxlength="8" placeholder="00000000" inputmode="numeric" pattern="[0-9]*" style="flex:1;min-width:200px;font-size:24px;letter-spacing:6px;text-align:center;font-family:monospace;padding:12px 8px">
-        <button type="button" id="verifyBtn" class="btn-inline">Verify</button>
-      </div>
-      <div class="hint">Code expires in 1 hour. <a href="#" id="resendLink">Resend code</a></div>
-      <div class="error" id="otpError">Invalid or expired code. Try again.</div>
-      <div class="success-sm" id="otpVerifiedBox">✅ Email verified! You can now fill the form below.</div>
-    </div>
-
-    <!-- STEP 3: Rest of form (locked until OTP verified) -->
-    <div id="step3" style="display:none;margin-top:24px;opacity:0.4;pointer-events:none" class="form-lock">
-      <div class="row">
-        <div>
-          <label for="name">Full name</label>
-          <input type="text" id="name" autocomplete="name" placeholder="Optional">
-        </div>
-        <div>
-          <label for="school">School / institution</label>
-          <input type="text" id="school" placeholder="Optional — helps locate account">
-        </div>
-      </div>
-
-      <label for="reason">Reason</label>
-      <select id="reason">
-        <option value="No longer using the app">No longer using the app</option>
-        <option value="Privacy concerns">Privacy concerns</option>
-        <option value="Duplicate account">Duplicate account</option>
-        <option value="Other">Other</option>
-      </select>
-
-      <label for="details">Additional details</label>
-      <textarea id="details" placeholder="Anything that helps us find and delete your account."></textarea>
-
-      <label class="check">
-        <input type="checkbox" id="confirm" required>
-        <span>I understand this will permanently delete my account and personal data (login, name, email, face photo/template linked to my account). This cannot be undone.</span>
-      </label>
-      <div class="error" id="confirmError">Please confirm to continue.</div>
-
-      <button type="submit" id="submitBtn">
-        <span class="spinner" aria-hidden="true"></span>
-        <span id="btnText">Submit deletion request</span>
-      </button>
-    </div>
-
-    <div class="success" id="successBox" role="status">
-      <h3>Request submitted</h3>
-      <p>Thank you. We received your deletion request and will complete it within 30 days.
-      A confirmation will be sent to your registered email.</p>
-    </div>
-    <div class="fail" id="failBox" role="alert">
-      Could not submit right now. Please email
-      <a href="mailto:smartfaceattendanceofficial@gmail.com">smartfaceattendanceofficial@gmail.com</a>
-      with subject "Account deletion request".
-    </div>
-  </form>
-
-  <div class="alt">
-    <strong>What gets deleted:</strong> your login account, name, email address, and any
-    face photo or face template linked to your personal account.<br><br>
-    <strong>What stays:</strong> class, student and attendance records created for your
-    institution (institutional records, not your personal account data).<br><br>
-    <strong>Questions:</strong>
-    <a href="mailto:smartfaceattendanceofficial@gmail.com">smartfaceattendanceofficial@gmail.com</a>
+<header class="header">
+  <div class="icon">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="3 6 5 6 21 6"></polyline>
+      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+      <line x1="10" y1="11" x2="10" y2="17"></line>
+      <line x1="14" y1="11" x2="14" y2="17"></line>
+    </svg>
   </div>
-</article>
-<footer>Student Face Attendance</footer>
+  <h1>Delete Your Account</h1>
+  <p>Student Face Attendance — Secure Account Deletion</p>
+</header>
+
+<div class="card">
+  <!-- Progress Steps -->
+  <div class="steps" id="stepsBar">
+    <div class="step-indicator active" id="ind1">
+      <span class="num">1</span>
+      <span class="label">Verify Email</span>
+    </div>
+    <div class="step-indicator" id="ind2">
+      <span class="num">2</span>
+      <span class="label">Enter Code</span>
+    </div>
+    <div class="step-indicator" id="ind3">
+      <span class="num">3</span>
+      <span class="label">Confirm &amp; Submit</span>
+    </div>
+  </div>
+
+  <div class="content">
+    <form id="deleteForm" novalidate>
+      <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+
+      <!-- ═══ STEP 1: Email ═══ -->
+      <div class="step-panel visible" id="panel1">
+        <h2>Verify your email</h2>
+        <p class="sub">Enter the email address registered with your account. We'll send a verification code to confirm ownership.</p>
+
+        <div class="field">
+          <label for="email">Email address <span class="req">*</span></label>
+          <div class="email-row">
+            <input type="email" id="email" required autocomplete="email" placeholder="you@example.com">
+            <button type="button" id="sendCodeBtn" class="btn btn-primary">Send Code</button>
+          </div>
+          <div class="hint">We'll send a 6–8 digit verification code to this email.</div>
+          <div class="err" id="emailError">Please enter a valid email address.</div>
+          <div class="alert alert-success" id="codeSentBox">
+            <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Verification code sent! Check your inbox and spam folder.
+          </div>
+        </div>
+
+        <div class="info-box">
+          <strong>Why do we verify?</strong>
+          This ensures only the legitimate account owner can request deletion. Your data stays safe.
+        </div>
+      </div>
+
+      <!-- ═══ STEP 2: OTP ═══ -->
+      <div class="step-panel" id="panel2">
+        <h2>Enter verification code</h2>
+        <p class="sub">We sent a verification code to <strong id="sentToEmail"></strong>. Enter it below to continue.</p>
+
+        <div class="field">
+          <label for="otp">Verification code <span class="req">*</span></label>
+          <div class="otp-row">
+            <input type="text" id="otp" maxlength="8" placeholder="00000000" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code">
+          </div>
+          <div class="hint">Code expires in 1 hour. <a href="#" id="resendLink" style="color:var(--primary);font-weight:600;">Resend code</a></div>
+          <div class="err" id="otpError">Invalid or expired code. Try again.</div>
+          <div class="alert alert-success" id="otpVerifiedBox">
+            <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Email verified! Continue below.
+          </div>
+        </div>
+
+        <button type="button" id="verifyBtn" class="btn btn-primary btn-block">Verify Code</button>
+      </div>
+
+      <!-- ═══ STEP 3: Form ═══ -->
+      <div class="step-panel" id="panel3">
+        <h2>Confirm deletion request</h2>
+        <p class="sub">Your email has been verified. Review and submit your deletion request below.</p>
+
+        <div class="field">
+          <label for="name">Full name <span class="opt">(optional)</span></label>
+          <input type="text" id="name" autocomplete="name" placeholder="Your full name">
+        </div>
+
+        <div class="field">
+          <label for="school">School / Institution <span class="opt">(optional)</span></label>
+          <input type="text" id="school" placeholder="Helps us locate your account faster">
+        </div>
+
+        <div class="field">
+          <label for="reason">Reason for deletion</label>
+          <select id="reason">
+            <option value="No longer using the app">No longer using the app</option>
+            <option value="Privacy concerns">Privacy concerns</option>
+            <option value="Switching to another app">Switching to another app</option>
+            <option value="Duplicate account">Duplicate account</option>
+            <option value="Not satisfied with the app">Not satisfied with the app</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="details">Additional details <span class="opt">(optional)</span></label>
+          <textarea id="details" placeholder="Anything that helps us process your request faster."></textarea>
+        </div>
+
+        <div class="checkbox-wrap">
+          <input type="checkbox" id="confirm" required>
+          <span>I understand that this will <strong>permanently delete</strong> my account and all associated personal data — including my login credentials, name, email address, and any face photo or face template linked to my account. <strong>This action cannot be undone.</strong></span>
+        </div>
+        <div class="err" id="confirmError">Please check the box to confirm.</div>
+
+        <div style="margin-top:20px">
+          <button type="submit" id="submitBtn" class="btn btn-danger btn-block">
+            <span class="spinner" aria-hidden="true"></span>
+            <span id="btnText">Submit Deletion Request</span>
+          </button>
+        </div>
+
+        <div class="alert alert-error" id="failBox" style="margin-top:14px">
+          Could not submit right now. Please email
+          <a href="mailto:smartfaceattendanceofficial@gmail.com" style="color:var(--red);font-weight:600;">smartfaceattendanceofficial@gmail.com</a>
+          with subject "Account deletion request".
+        </div>
+      </div>
+
+      <!-- ═══ SUCCESS ═══ -->
+      <div class="step-panel" id="panelSuccess">
+        <div class="success-screen">
+          <div class="big-check">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <h2>Request Submitted</h2>
+          <p>Thank you. We've received your account deletion request and will complete it <strong>within 30 days</strong>. A confirmation email will be sent to your registered address.</p>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="footer">
+  <p><strong>Student Face Attendance</strong></p>
+  <p style="margin-top:4px">Questions? <a href="mailto:smartfaceattendanceofficial@gmail.com">smartfaceattendanceofficial@gmail.com</a></p>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
@@ -288,6 +431,7 @@
   var sb = supabase.createClient(PROJECT, ANON_KEY);
   var verifiedJwt = null;
 
+  // DOM refs
   var form = document.getElementById('deleteForm');
   var email = document.getElementById('email');
   var otp = document.getElementById('otp');
@@ -298,19 +442,41 @@
   var otpError = document.getElementById('otpError');
   var codeSentBox = document.getElementById('codeSentBox');
   var otpVerifiedBox = document.getElementById('otpVerifiedBox');
-  var step3 = document.getElementById('step3');
   var confirmEl = document.getElementById('confirm');
   var confirmError = document.getElementById('confirmError');
-  var btn = document.getElementById('submitBtn');
+  var submitBtn = document.getElementById('submitBtn');
   var btnText = document.getElementById('btnText');
-  var successBox = document.getElementById('successBox');
   var failBox = document.getElementById('failBox');
+  var sentToEmail = document.getElementById('sentToEmail');
 
   function validEmail(v) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
   }
 
-  // STEP 1: Send OTP (Supabase built-in, same as signup)
+  function goToStep(n) {
+    // Hide all panels
+    ['panel1','panel2','panel3','panelSuccess'].forEach(function(id) {
+      document.getElementById(id).classList.remove('visible');
+    });
+    // Show target
+    document.getElementById(n === 'success' ? 'panelSuccess' : 'panel' + n).classList.add('visible');
+    // Update indicators
+    for (var i = 1; i <= 3; i++) {
+      var ind = document.getElementById('ind' + i);
+      ind.classList.remove('active','done');
+      if (n === 'success') {
+        ind.classList.add('done');
+      } else if (i < n) {
+        ind.classList.add('done');
+      } else if (i === n) {
+        ind.classList.add('active');
+      }
+    }
+    // Scroll to top of card
+    document.querySelector('.card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // ── STEP 1: Send OTP ──
   sendCodeBtn.addEventListener('click', function () {
     emailError.style.display = 'none';
     codeSentBox.style.display = 'none';
@@ -321,7 +487,7 @@
     }
 
     sendCodeBtn.disabled = true;
-    sendCodeBtn.textContent = 'Sending...';
+    sendCodeBtn.innerHTML = '<span class="spinner" style="display:inline-block;border-color:rgba(255,255,255,.4);border-top-color:#fff"></span> Sending...';
 
     sb.auth.signInWithOtp({
       email: email.value.trim(),
@@ -334,31 +500,42 @@
         emailError.style.display = 'block';
         return;
       }
-      codeSentBox.style.display = 'block';
-      document.getElementById('step2').style.display = 'block';
+      codeSentBox.style.display = 'flex';
+      sentToEmail.textContent = email.value.trim();
+      setTimeout(function () { goToStep(2); otp.focus(); }, 800);
+    });
+  });
+
+  // ── RESEND OTP ──
+  resendLink.addEventListener('click', function (e) {
+    e.preventDefault();
+    otpError.style.display = 'none';
+    otpVerifiedBox.style.display = 'none';
+
+    resendLink.textContent = 'Sending...';
+    sb.auth.signInWithOtp({
+      email: email.value.trim(),
+      options: { shouldCreateUser: false }
+    }).then(function () {
+      resendLink.textContent = 'Resend code';
+      otp.value = '';
       otp.focus();
     });
   });
 
-  // RESEND OTP
-  resendLink.addEventListener('click', function (e) {
-    e.preventDefault();
-    sendCodeBtn.click();
-  });
-
-  // STEP 2: Verify OTP (Supabase built-in, same as signup)
+  // ── STEP 2: Verify OTP ──
   verifyBtn.addEventListener('click', function () {
     otpError.style.display = 'none';
     otpVerifiedBox.style.display = 'none';
 
     if (!otp.value.trim() || otp.value.trim().length < 6 || otp.value.trim().length > 8) {
-      otpError.textContent = 'Enter the 6-8 digit code from your email.';
+      otpError.textContent = 'Enter the 6–8 digit code from your email.';
       otpError.style.display = 'block';
       return;
     }
 
     verifyBtn.disabled = true;
-    verifyBtn.textContent = 'Verifying...';
+    verifyBtn.innerHTML = '<span class="spinner" style="display:inline-block"></span> Verifying...';
 
     sb.auth.verifyOtp({
       email: email.value.trim(),
@@ -366,39 +543,32 @@
       type: 'email'
     }).then(function (result) {
       verifyBtn.disabled = false;
-      verifyBtn.textContent = 'Verify';
+      verifyBtn.textContent = 'Verify Code';
       if (result.error || !result.data || !result.data.session) {
         otpError.textContent = (result.error && result.error.message) || 'Invalid or expired code.';
         otpError.style.display = 'block';
         return;
       }
       verifiedJwt = result.data.session.access_token;
-      otpVerifiedBox.style.display = 'block';
-      step3.classList.remove('locked');
-      step3.classList.add('unlocked');
-      step3.style.opacity = '1';
-      step3.style.pointerEvents = 'auto';
-      document.getElementById('name').focus();
+      otpVerifiedBox.style.display = 'flex';
+      setTimeout(function () { goToStep(3); }, 800);
     });
   });
 
-  // STEP 3: Submit form with verified JWT
+  // ── STEP 3: Submit ──
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     confirmError.style.display = 'none';
     failBox.style.display = 'none';
 
-    if (!verifiedJwt) {
-      alert('Please verify your email first.');
-      return;
-    }
+    if (!verifiedJwt) { goToStep(1); return; }
     if (!confirmEl.checked) {
       confirmError.style.display = 'block';
       return;
     }
 
-    btn.disabled = true;
-    btn.classList.add('loading');
+    submitBtn.disabled = true;
+    submitBtn.classList.add('loading');
     btnText.textContent = 'Submitting...';
 
     var data = {
@@ -421,18 +591,13 @@
       .then(function (res) { return res.json().then(function (j) { return { ok: res.ok, j: j }; }); })
       .then(function (r) {
         if (!r.ok) throw new Error(r.j && r.j.error ? r.j.error : 'request failed');
-        form.querySelectorAll('input, textarea, select, button').forEach(function (el) {
-          if (el.type !== 'hidden') el.disabled = true;
-        });
-        btn.classList.remove('loading');
-        btn.style.display = 'none';
-        successBox.style.display = 'block';
-        successBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        submitBtn.classList.remove('loading');
+        goToStep('success');
       })
       .catch(function () {
-        btn.disabled = false;
-        btn.classList.remove('loading');
-        btnText.textContent = 'Submit deletion request';
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('loading');
+        btnText.textContent = 'Submit Deletion Request';
         failBox.style.display = 'block';
       });
   });
