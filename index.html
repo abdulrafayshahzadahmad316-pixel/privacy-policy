@@ -7,490 +7,606 @@
 <meta name="description" content="Privacy Policy for the Student Face Attendance app: what we collect, how face photos and face templates are handled, optional face features, encryption, retention, deletion and your rights.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="./">
+<link rel="icon" type="image/png" href="./favicon.png">
+<link rel="apple-touch-icon" href="./icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --primary: #3f5efb;
-    --primary-dark: #2f4de0;
-    --text: #111827;
-    --text-sec: #6b7280;
-    --text-body: #374151;
-    --border: #e5e7eb;
-    --bg: #f9fafb;
-    --card: #ffffff;
-    --code-bg: #f3f4f6;
-    --green: #059669;
-    --green-bg: #ecfdf5;
-    --green-border: #a7f3d0;
+    --blue: #3b82f6;
+    --blue-dark: #2563eb;
+    --blue-light: #eff6ff;
+    --slate-900: #0f172a;
+    --slate-700: #334155;
+    --slate-500: #64748b;
+    --slate-400: #94a3b8;
+    --slate-200: #e2e8f0;
+    --slate-100: #f1f5f9;
+    --slate-50: #f8fafc;
+    --white: #ffffff;
+    --green-700: #15803d;
+    --green-50: #f0fdf4;
+    --green-200: #bbf7d0;
+    --red-700: #b91c1c;
+    --red-50: #fef2f2;
+    --red-200: #fecaca;
+    --amber-700: #b45309;
+    --amber-50: #fffbeb;
+    --amber-200: #fde68a;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
   body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     line-height: 1.7;
-    color: var(--text);
-    background: var(--bg);
+    color: var(--slate-700);
+    background: var(--slate-50);
+    -webkit-font-smoothing: antialiased;
   }
 
   /* ── Header ── */
-  .hero {
-    background: linear-gradient(135deg, #3f5efb 0%, #6a5cff 100%);
-    color: #fff;
-    padding: 44px 20px 52px;
-    text-align: center;
+  .header {
+    background: var(--white);
+    border-bottom: 1px solid var(--slate-200);
+    padding: 0 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
   }
-  .hero .shield {
-    width: 52px; height: 52px;
-    background: rgba(255,255,255,.15);
-    border-radius: 14px;
-    display: inline-flex; align-items: center; justify-content: center;
-    margin-bottom: 14px;
-  }
-  .hero .shield svg { width: 26px; height: 26px; }
-  .hero h1 { font-size: 26px; font-weight: 700; margin-bottom: 4px; }
-  .hero p { font-size: 14px; opacity: .85; }
-
-  /* ── Card ── */
-  .card {
-    max-width: 760px;
-    margin: -30px auto 48px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    box-shadow: 0 4px 24px rgba(0,0,0,.06);
-    overflow: hidden;
-  }
-  .card-body { padding: 28px 28px 32px; }
-  @media (max-width: 480px) {
-    .card-body { padding: 20px 16px 24px; }
-  }
-
-  /* ── Meta ── */
-  .meta-bar {
+  .header-inner {
+    max-width: 960px;
+    margin: 0 auto;
     display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
     align-items: center;
-    padding: 14px 28px;
-    background: #f9fafb;
-    border-bottom: 1px solid var(--border);
+    justify-content: space-between;
+    height: 56px;
+  }
+  .header .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--slate-900);
+    text-decoration: none;
+  }
+  .header .brand .logo {
+    width: 32px; height: 32px;
+    background: linear-gradient(135deg, #3b82f6, #6366f1);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff;
+  }
+  .header .brand .logo svg { width: 18px; height: 18px; }
+  .header nav { display: flex; gap: 20px; }
+  .header nav a {
     font-size: 13px;
-    color: var(--text-sec);
+    color: var(--slate-500);
+    text-decoration: none;
+    font-weight: 500;
   }
-  @media (max-width: 480px) {
-    .meta-bar { padding: 12px 16px; }
-  }
-  .meta-bar .dot {
-    width: 6px; height: 6px;
-    background: var(--green);
-    border-radius: 50%;
-    display: inline-block;
+  .header nav a:hover { color: var(--blue); }
+  @media (max-width: 600px) {
+    .header nav { display: none; }
   }
 
-  /* ── Developer info ── */
-  .dev-info {
-    background: #f0f9ff;
-    border: 1px solid #bae6fd;
-    border-radius: 10px;
-    padding: 14px 16px;
-    margin-bottom: 24px;
-    font-size: 14px;
-    color: #0c4a6e;
-    line-height: 1.6;
+  /* ── Hero ── */
+  .hero {
+    background: var(--white);
+    padding: 48px 24px 40px;
+    text-align: center;
+    border-bottom: 1px solid var(--slate-200);
   }
-  .dev-info strong { color: #075985; }
-
-  /* ── Sections ── */
-  .section { margin-bottom: 28px; }
-  .section:last-child { margin-bottom: 0; }
-  .section-num {
+  .hero h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--slate-900);
+    margin-bottom: 8px;
+  }
+  .hero .subtitle {
+    font-size: 16px;
+    color: var(--slate-500);
+    margin-bottom: 16px;
+  }
+  .hero .badge {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    width: 28px; height: 28px;
-    background: var(--primary);
-    color: #fff;
-    border-radius: 8px;
+    gap: 6px;
+    background: var(--blue-light);
+    color: var(--blue-dark);
+    padding: 6px 14px;
+    border-radius: 20px;
     font-size: 13px;
-    font-weight: 700;
-    margin-right: 8px;
-    vertical-align: middle;
-    flex-shrink: 0;
+    font-weight: 500;
   }
-  h2 {
-    font-size: 17px;
-    font-weight: 700;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 0;
+  .hero .badge .dot {
+    width: 6px; height: 6px;
+    background: var(--green-700);
+    border-radius: 50%;
   }
-  p { font-size: 14.5px; color: var(--text-body); margin-bottom: 10px; }
-  p:last-child { margin-bottom: 0; }
-  a { color: var(--primary); text-decoration: none; }
-  a:hover { text-decoration: underline; }
-  strong { color: var(--text); }
-  ul { padding-left: 20px; margin: 8px 0; }
-  li { font-size: 14.5px; color: var(--text-body); margin-bottom: 6px; }
-  li:last-child { margin-bottom: 0; }
 
-  /* ── Data cards (replaces table on mobile) ── */
-  .data-cards { margin: 12px 0; }
-  .data-card {
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 14px 16px;
-    margin-bottom: 10px;
-    background: #fafbfc;
+  /* ── Layout ── */
+  .layout {
+    max-width: 960px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 40px;
+    padding: 40px 24px 64px;
   }
-  .data-card:last-child { margin-bottom: 0; }
-  .data-card .dc-title {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 6px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  @media (max-width: 800px) {
+    .layout {
+      grid-template-columns: 1fr;
+      gap: 0;
+      padding: 24px 16px 48px;
+    }
   }
-  .data-card .dc-title .icon {
-    width: 28px; height: 28px;
-    background: #eef1ff;
-    border-radius: 7px;
-    display: inline-flex; align-items: center; justify-content: center;
-    font-size: 14px;
-    flex-shrink: 0;
+
+  /* ── Sidebar TOC ── */
+  .sidebar {
+    position: sticky;
+    top: 80px;
+    align-self: start;
   }
-  .data-card .dc-row {
-    font-size: 13.5px;
-    color: var(--text-body);
-    margin-bottom: 4px;
-    line-height: 1.5;
+  @media (max-width: 800px) {
+    .sidebar {
+      position: static;
+      margin-bottom: 32px;
+      background: var(--white);
+      border: 1px solid var(--slate-200);
+      border-radius: 12px;
+      padding: 20px;
+    }
   }
-  .data-card .dc-row:last-child { margin-bottom: 0; }
-  .data-card .dc-label {
+  .sidebar-title {
+    font-size: 11px;
     font-weight: 600;
-    color: var(--text);
-    font-size: 12px;
     text-transform: uppercase;
-    letter-spacing: .3px;
-    display: block;
-    margin-bottom: 1px;
+    letter-spacing: .8px;
+    color: var(--slate-400);
+    margin-bottom: 12px;
+  }
+  .sidebar nav { display: flex; flex-direction: column; gap: 2px; }
+  .sidebar nav a {
+    font-size: 13px;
+    color: var(--slate-500);
+    text-decoration: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    border-left: 2px solid transparent;
+    transition: all .15s;
+  }
+  .sidebar nav a:hover {
+    color: var(--blue);
+    background: var(--blue-light);
+    border-left-color: var(--blue);
   }
 
-  /* ── Table (desktop only) ── */
-  .table-wrap { display: none; margin: 12px 0; }
-  @media (min-width: 640px) {
-    .table-wrap { display: block; }
-    .data-cards { display: none; }
+  /* ── Main content ── */
+  .content {
+    background: var(--white);
+    border: 1px solid var(--slate-200);
+    border-radius: 16px;
+    padding: 40px;
+    min-width: 0;
+  }
+  @media (max-width: 800px) {
+    .content { padding: 24px 20px; border-radius: 12px; }
+  }
+  .content p {
+    font-size: 15px;
+    color: var(--slate-700);
+    margin-bottom: 14px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  .content strong { color: var(--slate-900); font-weight: 600; }
+  .content a { color: var(--blue); text-decoration: none; font-weight: 500; }
+  .content a:hover { text-decoration: underline; }
+
+  /* ── Section ── */
+  .section { margin-bottom: 36px; padding-bottom: 36px; border-bottom: 1px solid var(--slate-100); }
+  .section:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+  .section h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--slate-900);
+    margin-bottom: 14px;
+  }
+  .section h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--slate-900);
+    margin: 20px 0 10px;
+  }
+
+  /* ── Lists ── */
+  .content ul, .content ol {
+    padding-left: 24px;
+    margin-bottom: 14px;
+  }
+  .content li {
+    font-size: 15px;
+    color: var(--slate-700);
+    margin-bottom: 8px;
+    line-height: 1.65;
+  }
+
+  /* ── Callout ── */
+  .callout {
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin: 16px 0;
+    font-size: 14px;
+    line-height: 1.65;
+  }
+  .callout-blue { background: var(--blue-light); border: 1px solid #bfdbfe; color: #1e40af; }
+  .callout-green { background: var(--green-50); border: 1px solid var(--green-200); color: var(--green-700); }
+  .callout-red { background: var(--red-50); border: 1px solid var(--red-200); color: var(--red-700); }
+  .callout-amber { background: var(--amber-50); border: 1px solid var(--amber-200); color: var(--amber-700); }
+  .callout strong { display: block; margin-bottom: 4px; font-size: 14px; }
+
+  /* ── Table ── */
+  .table-wrap {
+    overflow-x: auto;
+    margin: 16px 0;
+    -webkit-overflow-scrolling: touch;
   }
   table {
     width: 100%;
     border-collapse: collapse;
     font-size: 14px;
-  }
-  th, td {
-    border: 1px solid var(--border);
-    padding: 10px 14px;
-    text-align: left;
-    vertical-align: top;
+    min-width: 480px;
   }
   th {
-    background: #f9fafb;
+    background: var(--slate-50);
+    padding: 10px 14px;
+    text-align: left;
     font-weight: 600;
     font-size: 13px;
-    color: var(--text);
+    color: var(--slate-900);
+    border-bottom: 2px solid var(--slate-200);
+    white-space: nowrap;
   }
-  td { color: var(--text-body); }
+  td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--slate-100);
+    color: var(--slate-700);
+    vertical-align: top;
+    line-height: 1.55;
+  }
+  tr:last-child td { border-bottom: none; }
 
-  /* ── Callout boxes ── */
-  .callout {
-    border-radius: 10px;
-    padding: 14px 16px;
-    margin: 12px 0;
-    font-size: 14px;
-    line-height: 1.6;
+  /* ── Dev info card ── */
+  .info-card {
+    background: var(--slate-50);
+    border: 1px solid var(--slate-200);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 32px;
   }
-  .callout-green {
-    background: var(--green-bg);
-    border: 1px solid var(--green-border);
-    color: #065f46;
-  }
-  .callout-blue {
-    background: #f0f9ff;
-    border: 1px solid #bae6fd;
-    color: #0c4a6e;
-  }
-  .callout-red {
-    background: #fef2f2;
-    border: 1px solid #fecaca;
-    color: #7f1d1d;
-  }
-  .callout strong { display: block; margin-bottom: 4px; }
-
-  /* ── Deletion CTA ── */
-  .deletion-cta {
+  .info-card .row {
     display: flex;
-    align-items: center;
-    gap: 14px;
-    background: linear-gradient(135deg, #fef2f2, #fff1f2);
-    border: 1px solid #fecaca;
-    border-radius: 12px;
-    padding: 18px 20px;
-    margin: 14px 0;
+    gap: 12px;
+    margin-bottom: 10px;
+    font-size: 14px;
   }
-  .deletion-cta .icon {
-    width: 44px; height: 44px;
-    background: #fee2e2;
-    border-radius: 12px;
-    display: inline-flex; align-items: center; justify-content: center;
+  .info-card .row:last-child { margin-bottom: 0; }
+  .info-card .label {
+    font-weight: 600;
+    color: var(--slate-900);
+    min-width: 140px;
     flex-shrink: 0;
   }
-  .deletion-cta .icon svg { width: 22px; height: 22px; }
-  .deletion-cta .text { flex: 1; }
-  .deletion-cta .text strong { display: block; font-size: 14px; color: #991b1b; margin-bottom: 2px; }
-  .deletion-cta .text span { font-size: 13px; color: #b91c1c; }
-  .deletion-cta a.btn {
+  .info-card .value { color: var(--slate-500); }
+  @media (max-width: 500px) {
+    .info-card .row { flex-direction: column; gap: 2px; }
+    .info-card .label { min-width: auto; }
+  }
+
+  /* ── Deletion CTA ── */
+  .cta-box {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--red-50);
+    border: 1px solid var(--red-200);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 16px 0;
+  }
+  .cta-box .icon {
+    width: 48px; height: 48px;
+    background: #fee2e2;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .cta-box .icon svg { width: 24px; height: 24px; }
+  .cta-box .text { flex: 1; min-width: 0; }
+  .cta-box .text strong { display: block; font-size: 15px; color: var(--red-700); margin-bottom: 2px; }
+  .cta-box .text span { font-size: 13px; color: #dc2626; }
+  .cta-box .btn {
     display: inline-block;
     background: #dc2626;
     color: #fff;
-    padding: 10px 18px;
+    padding: 10px 20px;
     border-radius: 8px;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
     text-decoration: none;
     white-space: nowrap;
-    transition: background .2s;
+    transition: background .15s;
   }
-  .deletion-cta a.btn:hover { background: #b91c1c; text-decoration: none; }
-  @media (max-width: 520px) {
-    .deletion-cta { flex-direction: column; text-align: center; }
+  .cta-box .btn:hover { background: var(--red-700); text-decoration: none; }
+  @media (max-width: 560px) {
+    .cta-box { flex-direction: column; text-align: center; }
   }
 
   /* ── Footer ── */
   .footer {
     text-align: center;
-    padding: 20px;
+    padding: 32px 24px;
     font-size: 13px;
-    color: var(--text-sec);
+    color: var(--slate-400);
+    border-top: 1px solid var(--slate-200);
+    background: var(--white);
   }
-  .footer strong { color: var(--text); }
-
-  /* ── Dark mode ── */
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --text: #e6e6e6;
-      --text-sec: #9aa1ad;
-      --text-body: #c9cdd6;
-      --border: #262a33;
-      --bg: #0f1115;
-      --card: #171a20;
-      --code-bg: #1f232b;
-    }
-    body { background: var(--bg); color: var(--text); }
-    .card { box-shadow: none; }
-    .meta-bar { background: #1a1e26; }
-    .dev-info { background: #0c2d48; border-color: #0e4a6e; color: #7dd3fc; }
-    .dev-info strong { color: #bae6fd; }
-    .data-card { background: #1a1e26; }
-    .data-card .dc-title .icon { background: #1e293b; }
-    th { background: #1a1e26; }
-    .callout-green { background: #064e3b; border-color: #065f46; color: #a7f3d0; }
-    .callout-blue { background: #0c2d48; border-color: #0e4a6e; color: #7dd3fc; }
-    .callout-red { background: #450a0a; border-color: #7f1d1d; color: #fecaca; }
-    .deletion-cta { background: #2d0a0a; border-color: #7f1d1d; }
-    .deletion-cta .icon { background: #450a0a; }
-    .deletion-cta .text strong { color: #fca5a5; }
-    .deletion-cta .text span { color: #fca5a5; }
-    .footer { color: var(--text-sec); }
-    .footer strong { color: var(--text); }
-  }
+  .footer strong { color: var(--slate-500); }
 </style>
 </head>
 <body>
 
-<header class="hero">
-  <div class="shield">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-    </svg>
+<!-- ── Sticky Header ── -->
+<header class="header">
+  <div class="header-inner">
+    <a href="./" class="brand">
+      <img src="./icon.png" alt="Student Face Attendance" style="width:32px;height:32px;border-radius:8px;object-fit:cover">
+      Student Face Attendance
+    </a>
+    <nav>
+      <a href="#collect">Data</a>
+      <a href="#face">Face Data</a>
+      <a href="#deletion">Deletion</a>
+      <a href="#contact">Contact</a>
+    </nav>
   </div>
-  <h1>Privacy Policy</h1>
-  <p>Student Face Attendance</p>
 </header>
 
-<div class="card">
-  <div class="meta-bar">
+<!-- ── Hero ── -->
+<section class="hero">
+  <img src="./icon.png" alt="Student Face Attendance" style="width:64px;height:64px;border-radius:16px;object-fit:cover;margin-bottom:16px;box-shadow:0 4px 12px rgba(0,0,0,.1)">
+  <h1>Privacy Policy</h1>
+  <p class="subtitle">How we collect, use, and protect your information</p>
+  <div class="badge">
     <span class="dot"></span>
-    <span>Last updated: October 11, 2026</span>
+    Last updated: October 11, 2026
   </div>
+</section>
 
-  <div class="card-body">
+<!-- ── Layout ── -->
+<div class="layout">
 
-    <div class="dev-info">
-      <strong>Developer / Data Controller:</strong> Student Attendance<br>
-      <strong>Contact:</strong> <a href="mailto:smartfaceattendanceofficial@gmail.com">smartfaceattendanceofficial@gmail.com</a>
+  <!-- Sidebar TOC -->
+  <aside class="sidebar">
+    <div class="sidebar-title">On this page</div>
+    <nav>
+      <a href="#about">1. About Us</a>
+      <a href="#collect">2. Information We Collect</a>
+      <a href="#face">3. Facial Recognition Data</a>
+      <a href="#use">4. How We Use Data</a>
+      <a href="#security">5. Data Storage &amp; Security</a>
+      <a href="#sharing">6. Data Sharing</a>
+      <a href="#retention">7. Data Retention</a>
+      <a href="#deletion">8. Account Deletion</a>
+      <a href="#children">9. Children's Privacy</a>
+      <a href="#cookies">10. Cookies</a>
+      <a href="#changes">11. Changes to This Policy</a>
+      <a href="#contact">12. Contact Us</a>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="content">
+
+    <!-- Developer Info -->
+    <div class="info-card">
+      <div class="row">
+        <span class="label">Developer</span>
+        <span class="value">Student Attendance</span>
+      </div>
+      <div class="row">
+        <span class="label">Contact</span>
+        <span class="value"><a href="mailto:smartfaceattendanceofficial@gmail.com">smartfaceattendanceofficial@gmail.com</a></span>
+      </div>
+      <div class="row">
+        <span class="label">App</span>
+        <span class="value">Student Face Attendance (Android)</span>
+      </div>
+      <div class="row">
+        <span class="label">Platform</span>
+        <span class="value">Google Play Store</span>
+      </div>
     </div>
 
-    <!-- 1 -->
-    <div class="section">
-      <h2><span class="section-num">1</span> Scope of this policy</h2>
-      <p>This Privacy Policy explains how the <strong>Student Face Attendance</strong> mobile application (the &ldquo;App&rdquo;) collects, uses, stores and protects information. The App is used by schools, colleges and universities to record student attendance, optionally using on-device face detection. This policy applies to all users: administrators, teachers and students.</p>
+    <!-- 1. About Us -->
+    <div class="section" id="about">
+      <h2>1. About Us</h2>
+      <p><strong>Student Face Attendance</strong> is a face-recognition based attendance management application developed for schools, colleges and universities. It helps institutions record student attendance quickly and accurately, with optional on-device face detection.</p>
+      <p>This Privacy Policy explains what information we collect, how we use it, and the rights you have regarding your data. By using the App, you agree to the practices described here.</p>
     </div>
 
-    <!-- 2 -->
-    <div class="section">
-      <h2><span class="section-num">2</span> Information we collect</h2>
+    <!-- 2. Information We Collect -->
+    <div class="section" id="collect">
+      <h2>2. Information We Collect</h2>
+      <p>We collect only the information necessary to provide attendance management services:</p>
 
-      <!-- Desktop table -->
       <div class="table-wrap">
         <table>
-          <tr><th>Category</th><th>Examples</th><th>Why</th></tr>
-          <tr><td><strong>Account data</strong></td><td>Name, email address, institution, role</td><td>To create your login and show the right screens</td></tr>
-          <tr><td><strong>Attendance records</strong></td><td>Roll number, class, status, timestamps</td><td>Core attendance feature and reports</td></tr>
-          <tr><td><strong>Photographs</strong></td><td>Face photos during enrollment or attendance</td><td>Only when face attendance is enabled</td></tr>
-          <tr><td><strong>Face templates</strong></td><td>Numeric face signature derived from your photo</td><td>To match live camera against enrolled students</td></tr>
-          <tr><td><strong>Device &amp; diagnostics</strong></td><td>Standard app errors if a crash occurs</td><td>To fix bugs. No analytics or ad SDKs</td></tr>
+          <thead>
+            <tr><th>Category</th><th>What We Collect</th><th>Purpose</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Account Data</strong></td>
+              <td>Name, email address, institution name, role (admin / teacher / student)</td>
+              <td>To create your login and display the correct screens</td>
+            </tr>
+            <tr>
+              <td><strong>Attendance Records</strong></td>
+              <td>Student roll number, class, attendance status (present / absent / leave), timestamps</td>
+              <td>Core attendance feature and reports</td>
+            </tr>
+            <tr>
+              <td><strong>Photographs</strong></td>
+              <td>Face photos captured during enrollment or attendance scan</td>
+              <td>Only when face attendance is enabled by the institution</td>
+            </tr>
+            <tr>
+              <td><strong>Face Templates</strong></td>
+              <td>A numeric face signature derived from your photo (not the photo itself)</td>
+              <td>To match a live camera frame against enrolled students</td>
+            </tr>
+            <tr>
+              <td><strong>Device &amp; Diagnostics</strong></td>
+              <td>Standard app error logs if a crash occurs</td>
+              <td>To fix bugs and improve stability</td>
+            </tr>
+          </tbody>
         </table>
-      </div>
-
-      <!-- Mobile cards -->
-      <div class="data-cards">
-        <div class="data-card">
-          <div class="dc-title"><span class="icon">&#128100;</span> Account data</div>
-          <div class="dc-row"><span class="dc-label">Examples</span>Name, email address, institution, role</div>
-          <div class="dc-row"><span class="dc-label">Why</span>To create your login and show the right screens</div>
-        </div>
-        <div class="data-card">
-          <div class="dc-title"><span class="icon">&#128203;</span> Attendance records</div>
-          <div class="dc-row"><span class="dc-label">Examples</span>Roll number, class, status, timestamps</div>
-          <div class="dc-row"><span class="dc-label">Why</span>Core attendance feature and reports</div>
-        </div>
-        <div class="data-card">
-          <div class="dc-title"><span class="icon">&#128247;</span> Photographs</div>
-          <div class="dc-row"><span class="dc-label">Examples</span>Face photos during enrollment or attendance</div>
-          <div class="dc-row"><span class="dc-label">Why</span>Only when face attendance is enabled</div>
-        </div>
-        <div class="data-card">
-          <div class="dc-title"><span class="icon">&#129302;</span> Face templates</div>
-          <div class="dc-row"><span class="dc-label">Examples</span>Numeric face signature derived from your photo</div>
-          <div class="dc-row"><span class="dc-label">Why</span>To match live camera against enrolled students</div>
-        </div>
-        <div class="data-card">
-          <div class="dc-title"><span class="icon">&#128268;</span> Device &amp; diagnostics</div>
-          <div class="dc-row"><span class="dc-label">Examples</span>Standard app errors if a crash occurs</div>
-          <div class="dc-row"><span class="dc-label">Why</span>To fix bugs. No analytics or ad SDKs</div>
-        </div>
       </div>
 
       <div class="callout callout-green">
         <strong>We do NOT collect:</strong>
-        Precise location, contacts, SMS/call logs, phone identifiers (IMEI/IMSI/Android ID), advertising IDs, financial data, or health data.
+        Precise location, contacts, SMS or call logs, phone identifiers (IMEI / IMSI / Android ID), advertising IDs, financial data, or health data.
       </div>
     </div>
 
-    <!-- 3 -->
-    <div class="section">
-      <h2><span class="section-num">3</span> Camera use and on-device processing</h2>
-      <p>The camera permission is requested <strong>only when you start a face scan or enrollment</strong>, never automatically at app start. Before the camera opens, we show a disclosure screen and you must actively agree.</p>
+    <!-- 3. Facial Recognition Data -->
+    <div class="section" id="face">
+      <h2>3. Facial Recognition Data</h2>
+      <p>Because our App uses face recognition for attendance, this section provides important details about how facial data is handled.</p>
+
+      <h3>What we collect</h3>
       <ul>
-        <li><strong>Face detection runs entirely on your device.</strong> Camera frames are processed locally by Google&rsquo;s on-device face detection model and are not uploaded.</li>
-        <li>Only the resulting photograph and the derived face template are sent to our servers, and only if face attendance is switched on.</li>
+        <li><strong>Face photographs</strong> — captured only during student enrollment or attendance scan, and only when face attendance is enabled.</li>
+        <li><strong>Face templates</strong> — a numeric signature (mathematical representation) derived from your face photograph. The template is used for matching; it is not a copy of your photo.</li>
+      </ul>
+
+      <h3>Purpose</h3>
+      <ul>
+        <li><strong>Student identification</strong> — to identify enrolled students during attendance scanning.</li>
+        <li><strong>Attendance marking</strong> — to automatically mark present / absent based on face match.</li>
+        <li><strong>Preventing proxy attendance</strong> — to ensure the correct student is marked present.</li>
+      </ul>
+
+      <div class="callout callout-red">
+        <strong>We do NOT use facial data for:</strong>
+        Advertising, marketing, selling to third parties, profiling, or any purpose other than attendance verification as described above.
+      </div>
+
+      <h3>Age restriction — 18+ only</h3>
+      <div class="callout callout-blue">
+        <strong>Face attendance is only used for students aged 18 or older.</strong>
+        Before any face photo is captured, the teacher or administrator must confirm in the App that the student is 18 years of age or older. For younger students, attendance is always recorded manually without any face scan. No photograph or face template is created for minors.
+      </div>
+
+      <h3>On-device processing</h3>
+      <ul>
+        <li><strong>Face detection runs entirely on your device.</strong> Camera frames are processed locally by Google's on-device face detection model (ML Kit) and are not uploaded to any server.</li>
+        <li>Only the resulting photograph and derived face template are sent to our servers, and only if face attendance is switched on.</li>
+        <li>The camera permission is requested <strong>only when you start a face scan or enrollment</strong>, never automatically at app start.</li>
       </ul>
     </div>
 
-    <!-- 4 -->
-    <div class="section">
-      <h2><span class="section-num">4</span> Face attendance — optional, adults 18+ only</h2>
-      <div class="callout callout-blue">
-        <strong>Age restriction: 18+</strong>
-        Face-based attendance is optional and is only used for students aged <strong>18 or older</strong>. Before any face photo is captured, the teacher or administrator must confirm in the app that the student is 18+.
-      </div>
-      <p>Attendance for younger students is always recorded <strong>manually</strong> (present, absent or leave) without any face scan. In that case no photograph or face template is created or used. Face scan is never required to use the App.</p>
-    </div>
-
-    <!-- 5 -->
-    <div class="section">
-      <h2><span class="section-num">5</span> How we use information</h2>
+    <!-- 4. How We Use Data -->
+    <div class="section" id="use">
+      <h2>4. How We Use Data</h2>
+      <p>We use the information we collect for the following purposes:</p>
       <ul>
         <li>To provide attendance recording, reports and class statistics.</li>
-        <li>To let teachers and administrators of your institution view the records they manage.</li>
+        <li>To let teachers and administrators of your institution view and manage the records they are responsible for.</li>
         <li>To secure your account and prevent unauthorized access.</li>
+        <li>To fix bugs and improve the App's stability.</li>
       </ul>
       <div class="callout callout-green">
         <strong>What we never do:</strong>
-        We do not sell your data, do not show advertisements, and do not use your data for profiling or behavioural targeting.
+        We do not sell your data, do not show advertisements, and do not use your data for profiling or behavioral targeting.
       </div>
     </div>
 
-    <!-- 6 -->
-    <div class="section">
-      <h2><span class="section-num">6</span> Who we share information with</h2>
+    <!-- 5. Data Storage & Security -->
+    <div class="section" id="security">
+      <h2>5. Data Storage &amp; Security</h2>
+      <p>We implement industry-standard security measures to protect your information:</p>
+
+      <h3>Encryption</h3>
+      <ul>
+        <li><strong>In transit:</strong> All communication between the App and our servers uses TLS 1.2+ (HTTPS).</li>
+        <li><strong>At rest:</strong> Data is encrypted at rest by our cloud provider (Supabase), with encrypted backups maintained.</li>
+        <li><strong>On device:</strong> Face detection runs locally; nothing is processed on third-party servers for detection.</li>
+      </ul>
+
+      <h3>Access control</h3>
+      <ul>
+        <li>Database rows are protected by <strong>row-level security (RLS)</strong>: users can only read rows belonging to their own institution.</li>
+        <li>Role-based permissions further limit what teachers and students can see.</li>
+        <li>Photographs and face templates are stored in private cloud storage and retrieved only through authenticated, authorized requests.</li>
+        <li>Authentication and access are enforced server-side and cannot be bypassed by the app alone.</li>
+      </ul>
+    </div>
+
+    <!-- 6. Data Sharing -->
+    <div class="section" id="sharing">
+      <h2>6. Data Sharing</h2>
       <p>We do not sell or rent your data. We share it only with the service providers below, strictly to run the App:</p>
 
-      <!-- Desktop table -->
       <div class="table-wrap">
         <table>
-          <tr><th>Provider</th><th>What it does</th><th>Data involved</th></tr>
-          <tr><td><strong>Supabase</strong></td><td>Database, authentication and file storage</td><td>Account data, attendance records, photos, face templates</td></tr>
-          <tr><td><strong>Google (ML Kit)</strong></td><td>On-device face detection inside the app</td><td>Camera frames processed on your device only</td></tr>
-          <tr><td><strong>Google Fonts</strong></td><td>Downloads app fonts to your device</td><td>Your IP address (standard font request)</td></tr>
+          <thead>
+            <tr><th>Provider</th><th>Service</th><th>Data Involved</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Supabase</strong></td>
+              <td>Database, authentication, and file storage</td>
+              <td>Account data, attendance records, photos, face templates</td>
+            </tr>
+            <tr>
+              <td><strong>Google (ML Kit)</strong></td>
+              <td>On-device face detection</td>
+              <td>Camera frames processed on your device only (not uploaded)</td>
+            </tr>
+            <tr>
+              <td><strong>Google Fonts</strong></td>
+              <td>App font delivery</td>
+              <td>Your IP address (standard font request)</td>
+            </tr>
+          </tbody>
         </table>
       </div>
 
-      <!-- Mobile cards -->
-      <div class="data-cards">
-        <div class="data-card">
-          <div class="dc-title"><span class="icon">&#9729;&#65039;</span> Supabase</div>
-          <div class="dc-row"><span class="dc-label">What it does</span>Database, authentication and file storage</div>
-          <div class="dc-row"><span class="dc-label">Data involved</span>Account data, attendance records, photos, face templates</div>
-        </div>
-        <div class="data-card">
-          <div class="dc-title"><span class="icon">&#129302;</span> Google (ML Kit)</div>
-          <div class="dc-row"><span class="dc-label">What it does</span>On-device face detection inside the app</div>
-          <div class="dc-row"><span class="dc-label">Data involved</span>Camera frames processed on your device only</div>
-        </div>
-        <div class="data-card">
-          <div class="dc-title"><span class="icon">&#128218;</span> Google Fonts</div>
-          <div class="dc-row"><span class="dc-label">What it does</span>Downloads app fonts to your device</div>
-          <div class="dc-row"><span class="dc-label">Data involved</span>Your IP address (standard font request)</div>
-        </div>
-      </div>
-
-      <p>Data may be processed in other countries than yours. Where required by law, transfers are covered by the providers&rsquo; standard contractual commitments.</p>
-      <p>We may disclose information if required to do so by law or in good faith that such action is necessary to comply with a legal obligation.</p>
+      <p>Data may be processed in countries other than yours. Where required by law, transfers are covered by the providers' standard contractual commitments.</p>
+      <p>We may disclose information if required by law or in good faith that such action is necessary to comply with a legal obligation.</p>
     </div>
 
-    <!-- 7 -->
-    <div class="section">
-      <h2><span class="section-num">7</span> Access control and security</h2>
+    <!-- 7. Data Retention -->
+    <div class="section" id="retention">
+      <h2>7. Data Retention</h2>
       <ul>
-        <li>Database rows are protected by <strong>row-level security (RLS)</strong>: users can only read rows belonging to their own institution, and role permissions further limit what teachers and students can see.</li>
-        <li>Photographs and face templates are stored in private cloud storage and are retrieved only through authenticated, authorized requests &mdash; they are not published, listed or linked publicly anywhere.</li>
-        <li>Authentication and access are enforced server-side; they cannot be bypassed by the app alone.</li>
+        <li><strong>Institutional records:</strong> Student data and attendance records are stored for as long as the school account remains active. We apply no automatic deletion schedule.</li>
+        <li><strong>When a student is deleted:</strong> Their photograph, face template, and attendance records are removed from our systems.</li>
+        <li><strong>Account data:</strong> Deleted as described in the Account Deletion section below.</li>
       </ul>
     </div>
 
-    <!-- 8 -->
-    <div class="section">
-      <h2><span class="section-num">8</span> Encryption</h2>
-      <ul>
-        <li><strong>In transit:</strong> all communication between the App and our servers uses TLS&nbsp;1.2+ (HTTPS).</li>
-        <li><strong>At rest:</strong> data is encrypted at rest by our cloud provider, with encrypted backups maintained.</li>
-        <li><strong>On device:</strong> face detection runs locally; nothing is processed on third-party servers for detection.</li>
-      </ul>
-    </div>
-
-    <!-- 9 -->
-    <div class="section">
-      <h2><span class="section-num">9</span> Retention</h2>
-      <p>Records are kept for as long as your institution keeps them; we apply no automatic deletion schedule. When a student is deleted, their photograph, face template and attendance records are removed. Account data is deleted as described in section&nbsp;10.</p>
-    </div>
-
-    <!-- 10 -->
+    <!-- 8. Account Deletion -->
     <div class="section" id="deletion">
-      <h2><span class="section-num">10</span> Your rights and account deletion</h2>
+      <h2>8. Account Deletion</h2>
       <p>You may request <strong>access to, correction of, or deletion of</strong> your personal data at any time.</p>
 
-      <div class="deletion-cta">
+      <div class="cta-box">
         <div class="icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="3 6 5 6 21 6"></polyline>
@@ -498,52 +614,74 @@
           </svg>
         </div>
         <div class="text">
-          <strong>Delete your account</strong>
-          <span>Submit a secure deletion request online</span>
+          <strong>Delete Your Account</strong>
+          <span>Submit a secure online deletion request</span>
         </div>
         <a href="./delete-account.html" class="btn">Delete Account</a>
       </div>
 
+      <h3>Deletion options</h3>
       <ul>
-        <li><strong>In the App:</strong> open <em>Settings</em> &rarr; <em>Delete account</em>. This permanently deletes your login, name and email address. Classes, students and attendance records remain with your institution.</li>
-        <li><strong>If you cannot access the App:</strong> use the <a href="./delete-account.html">account deletion request page</a> above, or email <a href="mailto:smartfaceattendanceofficial@gmail.com?subject=Account%20deletion">smartfaceattendanceofficial@gmail.com</a>. We complete deletions <strong>within 30 days</strong>.</li>
-        <li><strong>Students or parents:</strong> you may also ask your institution to delete a student&rsquo;s data, or contact us directly.</li>
+        <li><strong>In the App:</strong> Open <em>Settings</em> &rarr; <em>Delete account</em>. This permanently deletes your login, name, and email address. Classes, students, and attendance records remain with your institution.</li>
+        <li><strong>Online form:</strong> Use the <a href="./delete-account.html">account deletion request page</a> linked above.</li>
+        <li><strong>Email:</strong> Contact <a href="mailto:smartfaceattendanceofficial@gmail.com?subject=Account%20deletion">smartfaceattendanceofficial@gmail.com</a> from your registered email address.</li>
+      </ul>
+      <p>We complete all deletion requests <strong>within 30 days</strong> and send a confirmation email.</p>
+    </div>
+
+    <!-- 9. Children's Privacy -->
+    <div class="section" id="children">
+      <h2>9. Children's Privacy</h2>
+      <p>The App is intended for institutional use (schools, colleges, and universities). Student accounts are created and managed by the institution on the student's behalf.</p>
+      <ul>
+        <li>Face scan and face photo capture are <strong>only used for students aged 18 or older</strong>.</li>
+        <li>For students under 18, attendance is recorded manually without any face scan. No photograph or face template is created.</li>
+        <li>We do not knowingly collect personal data directly from minors.</li>
+        <li>If you believe a minor has provided us data directly, contact us and we will delete it promptly.</li>
       </ul>
     </div>
 
-    <!-- 11 -->
-    <div class="section">
-      <h2><span class="section-num">11</span> Students and age requirements</h2>
-      <p>The App is intended for institutional use (schools, colleges and universities). Student accounts are created and managed by the institution on the student&rsquo;s behalf. Face scan and face photo capture are only used for students aged <strong>18 or older</strong>; for younger students, attendance is recorded manually without any face scan. We do not knowingly collect personal data directly from minors. If you believe a minor has provided us data directly, contact us and we will delete it.</p>
+    <!-- 10. Cookies -->
+    <div class="section" id="cookies">
+      <h2>10. Cookies</h2>
+      <p>Our privacy policy website (hosted on GitHub Pages) may use basic technical cookies or local storage provided by the hosting platform for essential website functionality. These cookies do not track you across websites and are not used for advertising.</p>
+      <p>The App itself does not use cookies or tracking technologies.</p>
     </div>
 
-    <!-- 12 -->
-    <div class="section">
-      <h2><span class="section-num">12</span> Advertising and analytics</h2>
-      <div class="callout callout-green">
-        <strong>Clean &amp; ad-free:</strong>
-        The App contains no advertising, no ad SDKs, and no third-party analytics or tracking. No advertising identifier is used or collected.
+    <!-- 11. Changes -->
+    <div class="section" id="changes">
+      <h2>11. Changes to This Policy</h2>
+      <p>We may update this Privacy Policy from time to time. The &ldquo;Last updated&rdquo; date at the top of this page shows when it was last changed. Material changes will be communicated in the App. Continued use of the App after changes means you accept the updated policy.</p>
+    </div>
+
+    <!-- 12. Contact -->
+    <div class="section" id="contact">
+      <h2>12. Contact Us</h2>
+      <p>For questions, concerns, or to exercise any right described above, contact us:</p>
+      <div class="info-card">
+        <div class="row">
+          <span class="label">Email</span>
+          <span class="value"><a href="mailto:smartfaceattendanceofficial@gmail.com">smartfaceattendanceofficial@gmail.com</a></span>
+        </div>
+        <div class="row">
+          <span class="label">Subject Line</span>
+          <span class="value">Privacy Inquiry / Data Deletion Request</span>
+        </div>
+        <div class="row">
+          <span class="label">Response Time</span>
+          <span class="value">Within 30 days</span>
+        </div>
       </div>
     </div>
 
-    <!-- 13 -->
-    <div class="section">
-      <h2><span class="section-num">13</span> Changes to this policy</h2>
-      <p>We may update this policy from time to time. The &ldquo;last updated&rdquo; date above shows when it last changed. Material changes will be communicated in the App. Continued use after changes means you accept the updated policy.</p>
-    </div>
-
-    <!-- 14 -->
-    <div class="section">
-      <h2><span class="section-num">14</span> Contact</h2>
-      <p>For questions, concerns, or to exercise any right described above, contact us at <a href="mailto:smartfaceattendanceofficial@gmail.com">smartfaceattendanceofficial@gmail.com</a>.</p>
-    </div>
-
-  </div>
+  </main>
 </div>
 
-<div class="footer">
-  <p><strong>Student Face Attendance</strong></p>
-</div>
+<!-- ── Footer ── -->
+<footer class="footer">
+  <p><strong>&copy; 2026 Student Face Attendance</strong></p>
+  <p style="margin-top:4px">All rights reserved.</p>
+</footer>
 
 </body>
 </html>
